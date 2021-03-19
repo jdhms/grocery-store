@@ -3,12 +3,7 @@ import { UserContext } from "../context";
 import { Nav, INavLink } from "@fluentui/react";
 import { UserInfo } from "./UserInfo";
 import styled from "styled-components";
-import {
-  useHistory,
-  useLocation,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 interface Category {
   name: string;

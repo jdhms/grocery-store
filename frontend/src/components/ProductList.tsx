@@ -79,7 +79,7 @@ export const ProductList: React.FC = (props) => {
         <PrevPageButton
           iconProps={{ iconName: "Back" }}
           onClick={() => setPage((p) => p - 1)}
-          disabled={page == 0}
+          disabled={page === 0}
         >
           Previous
         </PrevPageButton>
