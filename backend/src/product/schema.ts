@@ -36,7 +36,7 @@ export const ProductDetailsSchema = {
     ...ProductSchema.properties,
     orders: {
       type: "array",
-      schema: OrderSchema,
+      items: OrderSchema,
     },
   },
 };

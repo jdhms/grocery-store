@@ -4,9 +4,9 @@ dotenv.config();
 import fastify from "fastify";
 import cors from "fastify-cors";
 import swagger from "fastify-swagger";
-import { productsController, ProductSchema } from "./product";
-import { ordersController, OrderSchema } from "./order";
-import { categoryController, CategorySchema } from "./category";
+import { productsController } from "./product";
+import { ordersController } from "./order";
+import { categoryController } from "./category";
 import { errorHandler } from "./errors";
 
 export const build = (opts = {}) => {
@@ -22,17 +22,12 @@ export const build = (opts = {}) => {
   // generate swagger docs automatically
   app.register(swagger, {
     exposeRoute: true,
-    swagger: {
+    openapi: {
       info: {
         title: "Grocery store web app",
         description: "Azure RBAC in APIM",
         version: "0.1.0",
-      },
-      definitions: {
-        Product: ProductSchema,
-        Order: OrderSchema,
-        Category: CategorySchema,
-      },
+      }
     },
   });
 
