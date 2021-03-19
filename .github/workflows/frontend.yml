@@ -4,11 +4,14 @@ on:
   push:
     branches:
       - master
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
 
 jobs:
   build_and_deploy_job:
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
+    name: Build and Deploy
     steps:
       - uses: actions/checkout@v2
       - name: Build And Deploy
@@ -22,6 +25,6 @@ jobs:
           api_location: "api"
           output_location: "build"
         env:
-          REACT_APP_API_URL: http://localhost:3000
-          
+          REACT_APP_API_URL: https://rbacgrocerystore-api.azurewebsites.net
+
 
