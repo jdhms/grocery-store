@@ -10,4 +10,4 @@ const server = build({
 
 // Start server
 server.listen(FASTIFY_PORT, "0.0.0.0");
-console.log(`🚀 IP Geo lookup service running on port ${FASTIFY_PORT}`);
+console.log(`rbacgrocerystore-api listening on port ${FASTIFY_PORT}`);
