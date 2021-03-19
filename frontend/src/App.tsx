@@ -1,18 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Home } from "./pages";
+import { Home, ProductPage } from "./pages";
 import { Layout } from "./components";
 import { UserContextProvider } from "./context";
 
 const App: React.FC = () => (
   <UserContextProvider>
-    <Layout>
-      <Router>
+    <Router>
+      <Layout>
         <Switch>
-          <Route path="/" component={Home} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/category/:category" component={Home} />
+          <Route exact path="/product/:productId" component={ProductPage} />
         </Switch>
-      </Router>
-    </Layout>
+      </Layout>
+    </Router>
   </UserContextProvider>
 );
 

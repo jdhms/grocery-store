@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Product } from "./ProductCard";
 import { UserContext } from "../context";
 import {
   Dialog,
@@ -9,22 +8,24 @@ import {
   DialogType,
 } from "@fluentui/react";
 
-interface Props extends Product {
-  onDeleted(id: string): void;
+interface Props {
+  productId: string;
+  orderId: string;
+  onDeleted(productId: string, orderId: string): void;
   onCancel(): void;
 }
 
-export const ConfirmDeleteProductModal: React.FC<Props> = (props) => {
+export const ConfirmDeleteOrderModal: React.FC<Props> = (props) => {
   const { request } = useContext(UserContext);
 
-  const { onDeleted, onCancel, name, category, id } = props;
+  const { onDeleted, onCancel, productId, orderId } = props;
 
-  const deleteProduct = async () => {
+  const deleteOrder = async () => {
     try {
-      await request(`/product/${id}`, {
+      await request(`/product/${productId}/order/${orderId}`, {
         method: "DELETE",
       });
-      onDeleted(id);
+      onDeleted(productId, orderId);
     } catch (e) {
       console.error(e);
     }
@@ -37,14 +38,14 @@ export const ConfirmDeleteProductModal: React.FC<Props> = (props) => {
       dialogContentProps={{
         type: DialogType.normal,
         title: "Confirm Delete",
-        subText: `Delete product ${name} in category ${category}?`,
+        subText: `Delete order ${orderId}?`,
       }}
       modalProps={{
         isBlocking: true,
       }}
     >
       <DialogFooter>
-        <PrimaryButton onClick={deleteProduct} text="Delete" />
+        <PrimaryButton onClick={deleteOrder} text="Delete" />
         <DefaultButton onClick={onCancel} text="Cancel" />
       </DialogFooter>
     </Dialog>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Root = styled.div`
@@ -13,12 +14,20 @@ const Root = styled.div`
   color: #fff;
 `;
 
-const Brand = styled.div`
+const Brand = styled(Link)`
   font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+
+  :hover,
+  :active {
+    text-decoration: none;
+    color: #fff;
+  }
 `;
 
 export const Header: React.FC = () => (
   <Root>
-    <Brand>Grocery Store</Brand>
+    <Brand to="/">Grocery Store</Brand>
   </Root>
 );

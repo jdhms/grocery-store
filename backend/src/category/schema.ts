@@ -8,8 +8,8 @@ export const CategorySchema = {
     },
     count: {
       type: "number",
-      description: "Products in category"
-    }
+      description: "Products in category",
+    },
   },
 };
 

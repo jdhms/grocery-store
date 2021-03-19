@@ -12,7 +12,10 @@ type ItemRequest = {
 };
 
 type ListRequest = {
-  Querystring: { page?: number };
+  Querystring: {
+    page?: number;
+    category?: string;
+  };
 };
 
 export const productsController = async (fastify: FastifyInstance) => {
@@ -39,7 +42,12 @@ export const productsController = async (fastify: FastifyInstance) => {
       },
     },
     handler: async (req, res) => {
-      const result = await queries.listAllProducts(req.query.page);
+      const result = req.query.category
+        ? await queries.listProductsInCategory(
+            req.query.category,
+            req.query.page
+          )
+        : await queries.listAllProducts(req.query.page);
       res.send(result);
     },
   });

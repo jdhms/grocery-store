@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import fastify from "fastify";
@@ -6,7 +6,7 @@ import cors from "fastify-cors";
 import swagger from "fastify-swagger";
 import { productsController, ProductSchema } from "./product";
 import { ordersController, OrderSchema } from "./order";
-import { categoryController, CategorySchema } from './category';
+import { categoryController, CategorySchema } from "./category";
 import { errorHandler } from "./errors";
 
 export const build = (opts = {}) => {
@@ -31,7 +31,7 @@ export const build = (opts = {}) => {
       definitions: {
         Product: ProductSchema,
         Order: OrderSchema,
-        Category: CategorySchema
+        Category: CategorySchema,
       },
     },
   });

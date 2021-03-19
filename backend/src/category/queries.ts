@@ -1,7 +1,6 @@
 import { getContainer } from "../db";
 import { Category } from "./schema";
 
-
 export const listAllCategories = async () => {
   const query = `
     SELECT COUNT(1) AS count, p.category AS name 
@@ -9,8 +8,6 @@ export const listAllCategories = async () => {
     GROUP BY p.category
   `;
   const container = await getContainer();
-  const { resources } = await container.items
-    .query<Category>(query)
-    .fetchAll();
+  const { resources } = await container.items.query<Category>(query).fetchAll();
   return resources;
 };

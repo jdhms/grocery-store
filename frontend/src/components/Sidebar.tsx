@@ -3,6 +3,12 @@ import { UserContext } from "../context";
 import { Nav, INavLink } from "@fluentui/react";
 import { UserInfo } from "./UserInfo";
 import styled from "styled-components";
+import {
+  useHistory,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 
 interface Category {
   name: string;
@@ -15,7 +21,13 @@ const Wrapper = styled.div`
   width: 300px;
 `;
 
+interface MatchParams {
+  category?: string;
+}
+
 export const Sidebar: React.FunctionComponent = () => {
+  const history = useHistory();
+  const match = useRouteMatch<MatchParams>("/category/:category");
   const { request } = useContext(UserContext);
   const [categoryLinks, setCategoryLinks] = useState<INavLink[]>([]);
 
@@ -52,6 +64,11 @@ export const Sidebar: React.FunctionComponent = () => {
             links: categoryLinks,
           },
         ]}
+        onLinkClick={(ev, el) => {
+          ev?.preventDefault();
+          el && history.push(el.url);
+        }}
+        selectedKey={match?.params?.category ?? ""}
       />
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { OrderSchema, OrderWrite } from "./schema";
-import { ProductSchema } from "../product";
+import { ProductDetailsSchema } from "../product";
 import * as queries from "./queries";
 import * as uuid from "uuid";
 
@@ -10,11 +10,11 @@ type CreateRequest = {
 };
 
 type ItemRequest = {
-  Params: { 
-    id: string, 
-    orderId: string
+  Params: {
+    id: string;
+    orderId: string;
   };
-}
+};
 
 export const ordersController = async (fastify: FastifyInstance) => {
   fastify.route<CreateRequest>({
@@ -28,7 +28,7 @@ export const ordersController = async (fastify: FastifyInstance) => {
         id: { type: "string" },
       },
       response: {
-        201: ProductSchema,
+        201: ProductDetailsSchema,
       },
     },
     handler: async (req, res) => {
@@ -49,11 +49,11 @@ export const ordersController = async (fastify: FastifyInstance) => {
       summary: "Create Order",
       params: {
         id: { type: "string" },
-        orderId: { type: "string" }
+        orderId: { type: "string" },
       },
       response: {
         204: {},
-        400: {}
+        400: {},
       },
     },
     handler: async (req, res) => {

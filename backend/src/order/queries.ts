@@ -15,8 +15,8 @@ export const createOrder = async (productId: string, order: Order) => {
     });
     return {
       ...product,
-      onOrder: product.onOrder + order.count
-    }
+      onOrder: product.onOrder + order.count,
+    };
   } catch (err) {
     if (err.code == 412) {
       throw new ConflictError();
@@ -29,7 +29,7 @@ export const deleteOrder = async (productId: string, orderId: string) => {
   const container = await getContainer();
   const product = await getProduct(productId);
 
-  const orderIdx = product.orders.findIndex(o => o.id == orderId);
+  const orderIdx = product.orders.findIndex((o) => o.id == orderId);
   if (orderIdx === -1) {
     throw new NotFoundError();
   }
@@ -41,10 +41,10 @@ export const deleteOrder = async (productId: string, orderId: string) => {
       accessCondition: { type: "IfMatch", condition: product._etag },
     });
     return resource;
-  } catch(err) {
+  } catch (err) {
     if (err.code === 412) {
       throw new ConflictError();
     }
     throw err;
   }
-}
+};

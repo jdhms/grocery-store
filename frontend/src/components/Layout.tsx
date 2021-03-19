@@ -28,6 +28,7 @@ const Global = createGlobalStyle`
   :root {
     --background-main: #fafafa;
     --background-paper: #fff;
+    --background-disabled: #616161;
     --color-primary: rgb(0,120,212);
     --color-primary-light: #7986cb;
     --color-warning: #ffb74d;

@@ -7,6 +7,7 @@ import {
   IContextualMenuProps,
 } from "@fluentui/react";
 import { Chip } from "./Chip";
+import { useHistory } from "react-router";
 
 export interface Product {
   id: string;
@@ -71,6 +72,7 @@ export const ProductCard: React.FC<Props> = (props) => {
     onDelete,
     onPlaceOrder,
   } = props;
+  const history = useHistory();
 
   const actionMenuProps: IContextualMenuProps = {
     alignTargetEdge: true,
@@ -86,6 +88,12 @@ export const ProductCard: React.FC<Props> = (props) => {
         text: "Place Order",
         iconProps: { iconName: "AddIn" },
         onClick: () => onPlaceOrder(id),
+      },
+      {
+        key: "details",
+        text: "View Orders",
+        iconProps: { iconName: "WaitListConfirm" },
+        onClick: () => history.push(`/product/${id}`),
       },
     ],
   };
