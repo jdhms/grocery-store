@@ -1,6 +1,6 @@
 import { build } from "./app";
 
-const FASTIFY_PORT = Number(process.env.FASTIFY_PORT) || 3000;
+const FASTIFY_PORT = Number(process.env.PORT) || 3000;
 
 const server = build({
   logger: {
