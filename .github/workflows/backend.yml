@@ -1,7 +1,9 @@
 name: Deploy Backend
 
 on:
-  [push]
+  push:
+    branches:
+      - master
 
 env:
   AZURE_WEBAPP_NAME: your-app-name
@@ -36,6 +38,6 @@ jobs:
     - name: Deploy to Webapps
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: grocery-store
+        app-name: rbacgrocerystore-api
         package: ./backend
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
