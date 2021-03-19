@@ -25,8 +25,15 @@ jobs:
         npm ci
         npm run build
       
-  Deply:
-    - name: Deploy
+  Deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: Deploy to Webapps
       uses: azure/webapps-deploy@v2
       with: 
         app-name: grocery-store
