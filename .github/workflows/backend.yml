@@ -9,7 +9,6 @@ on:
       - ".github/workflows/backend.yml"
 
 env:
-  AZURE_WEBAPP_NAME: your-app-name
   NODE_VERSION: "14.x"
 
 defaults:
@@ -43,6 +42,6 @@ jobs:
       - name: Deploy to Webapps
         uses: azure/webapps-deploy@v2
         with:
-          app-name: rbacgrocerystore-api
+          app-name: rbachackathondemo-api
           package: ./backend
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
