@@ -3,7 +3,7 @@ import { OrderSchema, OrderWrite } from "./schema";
 import { ProductDetailsSchema } from "../product";
 import * as queries from "./queries";
 import * as uuid from "uuid";
-import fastifyPassport from 'fastify-passport'
+import fastifyPassport from "fastify-passport";
 
 type CreateRequest = {
   Body: OrderWrite;
@@ -32,7 +32,10 @@ export const ordersController = async (fastify: FastifyInstance) => {
         201: ProductDetailsSchema,
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer'], { authInfo: false, session: false }),
+    preValidation: fastifyPassport.authenticate(["bearer"], {
+      authInfo: false,
+      session: false,
+    }),
     handler: async (req, res) => {
       const result = await queries.createOrder(req.params.id, {
         id: uuid.v4(),
@@ -58,7 +61,10 @@ export const ordersController = async (fastify: FastifyInstance) => {
         400: {},
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer'], { authInfo: false, session: false }),
+    preValidation: fastifyPassport.authenticate(["bearer"], {
+      authInfo: false,
+      session: false,
+    }),
     handler: async (req, res) => {
       await queries.deleteOrder(req.params.id, req.params.orderId);
       res.status(204).send();

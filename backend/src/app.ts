@@ -8,31 +8,39 @@ import { productsController } from "./product";
 import { ordersController } from "./order";
 import { categoryController } from "./category";
 import { errorHandler } from "./errors";
-import { AuthConfig } from './config';
-import fastifyPassport from 'fastify-passport'
-import fastifySecureSession from 'fastify-secure-session'
-import { BearerStrategy } from 'passport-azure-ad';
-import  { Strategy as AnonymousStrategy } from 'passport-anonymous';
+import { AuthConfig } from "./config";
+import fastifyPassport from "fastify-passport";
+import fastifySecureSession from "fastify-secure-session";
+import { BearerStrategy } from "passport-azure-ad";
+import { Strategy as AnonymousStrategy } from "passport-anonymous";
 
+const bearerStratgey = new BearerStrategy(
+  {
+    identityMetadata: `https://${AuthConfig.AUTHORITY}/${AuthConfig.TENANT_ID}/${AuthConfig.DISCOVERY}`,
+    clientID: AuthConfig.CLIENT_ID,
+    audience: AuthConfig.AUDIENCE,
+    validateIssuer: false,
+    loggingLevel: "warn",
+    loggingNoPII: false,
+  },
+  (token, done) => {
+    done(
+      null,
+      {
+        username: token.preferred_username,
+      },
+      token
+    );
+  }
+);
 
-const bearerStratgey = new BearerStrategy({
-  identityMetadata: `https://${AuthConfig.AUTHORITY}/${AuthConfig.TENANT_ID}/${AuthConfig.DISCOVERY}`,
-  clientID: AuthConfig.CLIENT_ID,
-  audience: AuthConfig.AUDIENCE,
-  validateIssuer: false,
-  loggingLevel: 'warn',
-  loggingNoPII: false
-}, (token, done) => {
-  done(null, {
-    username: token.preferred_username
-  }, token)
-})
-
-
-const anonymousStrategy = new AnonymousStrategy()
+const anonymousStrategy = new AnonymousStrategy();
 
 export const build = (opts = {}) => {
-  const app = fastify(opts);
+  const app = fastify({
+    ...opts,
+    exposeHeadRoutes: true,
+  });
 
   // support cors for certain domains
   if (process.env.FRONTEND_DOMAIN) {
@@ -49,15 +57,18 @@ export const build = (opts = {}) => {
         title: "Grocery store web app",
         description: "Azure RBAC in APIM",
         version: "0.1.0",
-      }
+      },
     },
   });
-  
-  app.register(fastifySecureSession, { key: 'secretaoisdh;oauisihf;aosudujdbfisdubfsiubceiubaivIVBSDIUvasdiuvASDIUVAS' })
-  app.register(fastifyPassport.initialize())
-  app.register(fastifyPassport.secureSession())
-  fastifyPassport.use('bearer', bearerStratgey)
-  fastifyPassport.use('anonymous', anonymousStrategy)
+
+  app.register(fastifySecureSession, {
+    key:
+      "secretaoisdh;oauisihf;aosudujdbfisdubfsiubceiubaivIVBSDIUvasdiuvASDIUVAS",
+  });
+  app.register(fastifyPassport.initialize());
+  app.register(fastifyPassport.secureSession());
+  fastifyPassport.use("bearer", bearerStratgey);
+  fastifyPassport.use("anonymous", anonymousStrategy);
 
   // global error handler
   app.setErrorHandler(errorHandler);

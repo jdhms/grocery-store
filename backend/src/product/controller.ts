@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { ProductDetailsSchema, ProductSchema, ProductWrite } from "./schema";
 import * as queries from "./queries";
 import * as uuid from "uuid";
-import fastifyPassport from 'fastify-passport';
+import fastifyPassport from "fastify-passport";
 
 type CreateRequest = {
   Body: ProductWrite;
@@ -42,7 +42,10 @@ export const productsController = async (fastify: FastifyInstance) => {
         },
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer', 'anonymous'], { authInfo: false, session: false }),
+    preValidation: fastifyPassport.authenticate(["bearer", "anonymous"], {
+      authInfo: false,
+      session: false,
+    }),
     handler: async (req, res) => {
       const result = req.query.category
         ? await queries.listProductsInCategory(
@@ -65,7 +68,10 @@ export const productsController = async (fastify: FastifyInstance) => {
         201: ProductSchema,
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer'], { authInfo: false, session: false }),
+    preValidation: fastifyPassport.authenticate(["bearer"], {
+      authInfo: false,
+      session: false,
+    }),
     handler: async (req, res) => {
       const product = await queries.createProduct({
         id: uuid.v4(),
@@ -92,7 +98,10 @@ export const productsController = async (fastify: FastifyInstance) => {
         204: {},
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer'], { authInfo: false, session: false }),
+    preValidation: fastifyPassport.authenticate(["bearer"], {
+      authInfo: false,
+      session: false,
+    }),
     handler: async (req, res) => {
       await queries.deleteProduct(req.params.id);
       res.status(204).send();

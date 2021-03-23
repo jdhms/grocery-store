@@ -1,13 +1,14 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import styled from "styled-components";
+import { ActionButton, MessageBarType } from "@fluentui/react";
 import { UserContext } from "../context";
 import { ProductCard, Product } from "./ProductCard";
 import { ConfirmDeleteProductModal } from "./ConfirmDeleteModal";
 import { OrderProductModal } from "./OrderProductModal";
 import { CreateProductModal } from "./CreateProductModal";
 import { ProductCommandBar } from "./ProductCommandBar";
+import { ErrorMessage } from './ErrorMessage'
 import { useParams } from "react-router";
-import { ActionButton } from "@fluentui/react";
 
 const PAGE_SIZE = 16;
 
@@ -23,8 +24,10 @@ export const ProductList: React.FC = (props) => {
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
   const [orderingProduct, setOrderingProduct] = useState<Product | null>(null);
   const [creatingProduct, setCreatingProduct] = useState(false);
+  const [error, setError] = useState("");
 
   const getProducts = useCallback(async () => {
+    setError("");
     try {
       const cat = category ?? "";
       const products = await request<Product[]>(
@@ -33,6 +36,7 @@ export const ProductList: React.FC = (props) => {
       setProducts(products ?? []);
     } catch (e) {
       setProducts([]);
+      setError(e.message)
       console.error(e);
     }
   }, [request, category, page]);
@@ -65,6 +69,15 @@ export const ProductList: React.FC = (props) => {
   return (
     <>
       <ProductCommandBar onCreateProduct={() => setCreatingProduct(true)} />
+      {error && (
+        <ErrorMessage
+          messageBarType={MessageBarType.error}
+          isMultiline={false}
+          onDismiss={() => setError("")}
+        >
+          Error retrieving products: {error}
+        </ErrorMessage>
+      )}
       <Grid>
         {products.map((p) => (
           <ProductCard

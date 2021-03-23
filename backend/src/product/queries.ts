@@ -6,7 +6,7 @@ const PAGE_SIZE = 16;
 
 export const listAllProducts = async (page = 0) => {
   const query = `
-    SELECT p.id,p.name,p.category,p.inStock,
+    SELECT p.id,p.name,p.category,p.inStock,p.createdBy,
       (SELECT VALUE SUM(o.count) FROM o IN p.orders) as onOrder
     FROM p
     OFFSET @page
@@ -32,7 +32,7 @@ export const listAllProducts = async (page = 0) => {
 
 export const listProductsInCategory = async (category: string, page = 0) => {
   const query = `
-    SELECT p.id,p.name,p.category,p.inStock,
+    SELECT p.id,p.name,p.category,p.inStock,p.createdBy,
       (SELECT VALUE SUM(o.count) FROM o IN p.orders) as onOrder
     FROM p
     WHERE p.category = @category

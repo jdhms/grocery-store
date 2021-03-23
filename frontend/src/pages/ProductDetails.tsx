@@ -115,10 +115,11 @@ export const ProductPage: React.FC = () => {
       <Wrapper>
         {product && (
           <Persona
-            size={PersonaSize.size56}
+            size={PersonaSize.size72}
             text={product.name}
             imageInitials={product.name.slice(0, 2)}
             secondaryText={product.category}
+            tertiaryText={product.createdBy}
           />
         )}
         <StyledDetailsList

@@ -1,6 +1,6 @@
-declare module 'fastify' {
+declare module "fastify" {
   interface PassportUser {
-    username: string
+    username: string;
   }
 }
 
@@ -10,5 +10,5 @@ export const AuthConfig = {
   AUDIENCE: process.env.CLIENT_ID!,
   AUTHORITY: "login.microsoftonline.com",
   DISCOVERY: ".well-known/openid-configuration",
-  VERSION: "v2.0"
-}
+  VERSION: "v2.0",
+};

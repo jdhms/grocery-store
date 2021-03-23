@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Product } from "./ProductCard";
-import { UserContext } from "../context";
 import {
   Dialog,
   DialogFooter,
@@ -10,17 +8,16 @@ import {
   TextField,
   ITextFieldStyles,
   Stack,
+  MessageBarType,
 } from "@fluentui/react";
-import styled from "styled-components";
+import { Product } from "./ProductCard";
+import { UserContext } from "../context";
+import { ErrorMessage } from "./ErrorMessage";
 
 interface Props {
   onCreated(product: Product | null): void;
   onCancel(): void;
 }
-
-const ErrorMessage = styled.span`
-  color: var(--color-error);
-`;
 
 const textFieldStyles: Partial<ITextFieldStyles> = {
   fieldGroup: { width: 300 },
@@ -41,6 +38,7 @@ export const CreateProductModal: React.FC<Props> = (props) => {
       setError("Invalid input");
       return;
     }
+    setError("");
     try {
       const product = await request<Product>(`/product`, {
         method: "POST",
@@ -52,6 +50,7 @@ export const CreateProductModal: React.FC<Props> = (props) => {
       });
       onCreated(product);
     } catch (e) {
+      setError(e.message);
       console.error(e);
     }
   };
@@ -68,7 +67,15 @@ export const CreateProductModal: React.FC<Props> = (props) => {
         isBlocking: true,
       }}
     >
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && (
+        <ErrorMessage
+          messageBarType={MessageBarType.error}
+          isMultiline={false}
+          onDismiss={() => setError("")}
+        >
+          Error creating product: {error}
+        </ErrorMessage>
+      )}
       <Stack tokens={stackTokens}>
         <TextField
           label="Name"

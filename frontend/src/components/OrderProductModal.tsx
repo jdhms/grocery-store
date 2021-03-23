@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Product } from "./ProductCard";
-import { UserContext } from "../context";
 import {
   Dialog,
   DialogFooter,
@@ -9,29 +7,26 @@ import {
   DialogType,
   TextField,
   ITextFieldStyles,
+  MessageBarType,
 } from "@fluentui/react";
 import styled from "styled-components";
+import { Product } from "./ProductCard";
+import { UserContext } from "../context";
+import { ErrorMessage } from "./ErrorMessage";
 
 interface Props extends Product {
   onComplete(product: Product | null): void;
   onCancel(): void;
 }
 
-const HighlightSpan = styled.span`
-  color: var(--color-primary-light);
-`;
-
-const textFieldStyles: Partial<ITextFieldStyles> = {
-  fieldGroup: { width: 300 },
-};
-
 export const OrderProductModal: React.FC<Props> = (props) => {
+  const { onComplete, onCancel, name, category, id } = props;
   const { request } = useContext(UserContext);
   const [count, setCount] = useState("0");
-
-  const { onComplete, onCancel, name, category, id } = props;
+  const [error, setError] = useState("");
 
   const orderProduct = async () => {
+    setError("");
     try {
       const product = await request<Product>(`/product/${id}/order`, {
         method: "POST",
@@ -44,6 +39,7 @@ export const OrderProductModal: React.FC<Props> = (props) => {
       });
       onComplete(product);
     } catch (e) {
+      setError(e.message);
       console.error(e);
     }
   };
@@ -65,6 +61,15 @@ export const OrderProductModal: React.FC<Props> = (props) => {
         isBlocking: true,
       }}
     >
+      {error && (
+        <ErrorMessage
+          messageBarType={MessageBarType.error}
+          isMultiline={false}
+          onDismiss={() => setError("")}
+        >
+          Error creating order: {error}
+        </ErrorMessage>
+      )}
       <TextField
         label="Count"
         styles={textFieldStyles}
@@ -79,4 +84,12 @@ export const OrderProductModal: React.FC<Props> = (props) => {
       </DialogFooter>
     </Dialog>
   );
+};
+
+const HighlightSpan = styled.span`
+  color: var(--color-primary-light);
+`;
+
+const textFieldStyles: Partial<ITextFieldStyles> = {
+  fieldGroup: { width: 300 },
 };

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useAccount, useMsal } from "@azure/msal-react";
-import { AuthConfig } from '../config';
+import { AuthConfig } from "../config";
 
 interface UserCtx {
   request: <T>(url: string, opts?: Partial<RequestInit>) => Promise<T | null>;
@@ -66,9 +66,9 @@ export const UserContextProvider: React.FC = (props) => {
   }, [getTokenSilent, aquireToken, account]);
 
   const login = useCallback(async () => {
-    await instance.loginPopup({ 
+    await instance.loginPopup({
       ...tokenRequest,
-      prompt: 'select_account',
+      prompt: "select_account",
     });
   }, [instance]);
 
@@ -84,6 +84,7 @@ export const UserContextProvider: React.FC = (props) => {
       const authHeader = await getAuthHeaders();
       const resp = await fetch(`${baseUrl}${url}`, {
         ...opts,
+        mode: "cors",
         headers: {
           ...defaultHeaders,
           ...opts.headers,
@@ -108,6 +109,6 @@ export const UserContextProvider: React.FC = (props) => {
       value={{ request, login, logout, username: account?.name }}
     >
       {(account || inProgress === "none") && children}
-    </UserContext.Provider> 
+    </UserContext.Provider>
   );
 };

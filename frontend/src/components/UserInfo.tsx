@@ -46,7 +46,6 @@ export const UserInfo: React.FC = () => {
   );
 };
 
-
 const Wrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
