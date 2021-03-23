@@ -9,7 +9,7 @@ on:
       - ".github/workflows/frontend.yml"
 
 env:
-  REACT_APP_API_URL: https://rbachackathondemo-api.azurewebsites.net
+  REACT_APP_API_URL: https://rbachackathondemo-apim.azure-api.net
   REACT_APP_API_SCOPE: api://5f94a453-6b1b-40a3-976a-d42e35641083/Access
   REACT_APP_TENANT_ID: 37c69493-4ec6-4e45-b438-95c643ed70e9
   REACT_APP_CLIENT_ID: 0285b654-7b24-477f-82f7-0538056348d8
