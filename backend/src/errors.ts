@@ -19,6 +19,13 @@ export class BadRequestError extends Error {
   }
 }
 
+export class TokenError extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = "TokenError";
+  }
+}
+
 export const errorHandler = async (error: Error, _: any, reply: any) => {
   switch (error.name) {
     case "NotFoundError":
@@ -28,6 +35,7 @@ export const errorHandler = async (error: Error, _: any, reply: any) => {
       reply.status(409).send({ ok: false });
       break;
     case "BadRequestError":
+    case "TokenError":
       reply.status(400).send({ ok: false });
       break;
     default:

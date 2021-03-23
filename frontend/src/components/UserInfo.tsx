@@ -1,31 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Icon, IContextualMenuProps, DefaultButton } from "@fluentui/react";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  width: 100%;
-`;
-
-const DropdownButton = styled(DefaultButton)`
-  margin-top: 1rem;
-`;
+import { UserContext } from "../context";
 
 export const UserInfo: React.FC = () => {
-  const [user, setUser] = useState<string>("");
+  const { login, logout, username } = useContext(UserContext);
 
-  const iconName = user ? "UserFollowed" : "UserRemove";
+  const iconName = username ? "UserFollowed" : "UserRemove";
 
   const menuProps: IContextualMenuProps = {
     items: [
       {
         key: "logout",
         text: "Logout",
-        onClick: () => setUser(""),
+        onClick: () => {
+          logout();
+        },
       },
     ],
   };
@@ -41,17 +31,31 @@ export const UserInfo: React.FC = () => {
           color: "var(--text-muted)",
         }}
       />
-      {user ? (
+      {username ? (
         <DropdownButton
-          text={user}
+          text={username}
           split
           splitButtonAriaLabel="See 2 options"
           aria-roledescription="split button"
           menuProps={menuProps}
         />
       ) : (
-        <DropdownButton text="Login" onClick={(e) => setUser("Hackshaw")} />
+        <DropdownButton text="Login" onClick={login} />
       )}
     </Wrapper>
   );
 };
+
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  width: 100%;
+`;
+
+const DropdownButton = styled(DefaultButton)`
+  margin-top: 1rem;
+`;

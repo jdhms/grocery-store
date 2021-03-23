@@ -23,6 +23,10 @@ export const ProductSchema = {
       minimum: 0,
       default: 0,
     },
+    createdBy: {
+      readOnly: true,
+      type: "string",
+    },
     onOrder: {
       readOnly: true,
       type: "integer",
@@ -49,6 +53,7 @@ export interface ProductWrite {
 
 export interface Product extends ProductWrite {
   id: string;
+  createdBy: string;
   onOrder?: number;
 }
 

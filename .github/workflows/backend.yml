@@ -10,7 +10,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: your-app-name
-  NODE_VERSION: '14.x'
+  NODE_VERSION: "14.x"
 
 defaults:
   run:
@@ -29,7 +29,7 @@ jobs:
         run: |
           npm ci
           npm run build
-      
+
   Deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to Webapps
         uses: azure/webapps-deploy@v2
-        with: 
+        with:
           app-name: rbacgrocerystore-api
           package: ./backend
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
