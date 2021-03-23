@@ -39,7 +39,7 @@ const anonymousStrategy = new AnonymousStrategy();
 export const build = (opts = {}) => {
   const app = fastify({
     ...opts,
-    exposeHeadRoutes: true,
+    exposeHeadRoutes: false
   });
 
   // support cors for certain domains
@@ -62,8 +62,7 @@ export const build = (opts = {}) => {
   });
 
   app.register(fastifySecureSession, {
-    key:
-      "secretaoisdh;oauisihf;aosudujdbfisdubfsiubceiubaivIVBSDIUvasdiuvASDIUVAS",
+    key: process.env.SESSION_KEY!,
   });
   app.register(fastifyPassport.initialize());
   app.register(fastifyPassport.secureSession());
