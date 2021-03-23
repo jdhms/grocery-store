@@ -84,7 +84,6 @@ export const UserContextProvider: React.FC = (props) => {
       const authHeader = await getAuthHeaders();
       const resp = await fetch(`${baseUrl}${url}`, {
         ...opts,
-        mode: "cors",
         headers: {
           ...defaultHeaders,
           ...opts.headers,
