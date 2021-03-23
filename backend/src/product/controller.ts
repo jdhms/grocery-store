@@ -75,7 +75,6 @@ export const productsController = async (fastify: FastifyInstance) => {
         createdBy: req.user?.username ?? "Anonymous",
         orders: [],
       });
-      console.log(product);
       res.status(201).send(product);
     },
   });
