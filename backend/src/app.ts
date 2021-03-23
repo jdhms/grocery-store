@@ -49,7 +49,7 @@ export const build = (opts = {}) => {
     });
   }
 
-  // generate swagger docs automatically
+  // generate swagger docs
   app.register(swagger, {
     exposeRoute: true,
     openapi: {
