@@ -9,6 +9,7 @@ export const categoryController = async (fastify: FastifyInstance) => {
     schema: {
       tags: ["Category"],
       summary: "List Product Categories",
+      operationId: "ListCategories",
       response: {
         200: {
           type: "array",

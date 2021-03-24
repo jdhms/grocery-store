@@ -29,6 +29,7 @@ export const productsController = async (fastify: FastifyInstance) => {
     schema: {
       tags: ["Product"],
       summary: "List Products",
+      operationId: "ListProducts",
       querystring: {
         category: {
           type: "string",
@@ -63,6 +64,7 @@ export const productsController = async (fastify: FastifyInstance) => {
     schema: {
       tags: ["Product"],
       summary: "Create product",
+      operationId: "CreateProduct",
       body: ProductSchema,
       querystring: {
         count: {
@@ -95,6 +97,7 @@ export const productsController = async (fastify: FastifyInstance) => {
     schema: {
       tags: ["Product"],
       summary: "Delete product",
+      operationId: "DeleteProduct",
       params: {
         id: { type: "string" },
       },
@@ -114,6 +117,7 @@ export const productsController = async (fastify: FastifyInstance) => {
     schema: {
       tags: ["Product"],
       summary: "Get product",
+      operationId: "GetProduct",
       params: {
         id: { type: "string" },
       },

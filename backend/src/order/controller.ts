@@ -22,6 +22,7 @@ export const ordersController = async (fastify: FastifyInstance) => {
     url: "/product/:id/order",
     schema: {
       tags: ["Order"],
+      operationId: "CreateOrder",
       summary: "Create Order",
       params: {
         id: { type: "string" },
@@ -56,6 +57,7 @@ export const ordersController = async (fastify: FastifyInstance) => {
     url: "/product/:id/order/:orderId",
     schema: {
       tags: ["Order"],
+      operationId: "DeleteOrder",
       summary: "Delete Order",
       params: {
         id: { type: "string" },
