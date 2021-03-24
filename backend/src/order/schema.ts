@@ -3,10 +3,11 @@ export const OrderSchema = {
   required: ["count"],
   properties: {
     id: {
-      type: "string",
       readOnly: true,
+      type: "string",
     },
     count: {
+      readonly: true,
       type: "integer",
       minimum: 0,
     },
@@ -17,11 +18,8 @@ export const OrderSchema = {
   },
 };
 
-export interface OrderWrite {
+export interface Order {
+  id: string;
   count: number;
   createdBy: string;
-}
-
-export interface Order extends OrderWrite {
-  id: string;
 }

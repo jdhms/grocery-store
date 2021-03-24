@@ -21,7 +21,7 @@ const bearerStratgey = new BearerStrategy(
     clientID: AuthConfig.CLIENT_ID,
     audience: AuthConfig.AUDIENCE,
     validateIssuer: true,
-    loggingLevel: "info",
+    loggingLevel: "warn",
     loggingNoPII: false
   },
   (token, done) => {

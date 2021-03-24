@@ -6,6 +6,9 @@ import fastifyPassport from 'fastify-passport';
 
 type CreateRequest = {
   Body: ProductWrite;
+  Querystring: {
+    count: number
+  }
 };
 
 type ItemRequest = {
@@ -61,6 +64,13 @@ export const productsController = async (fastify: FastifyInstance) => {
       tags: ["Product"],
       summary: "Create product",
       body: ProductSchema,
+      querystring: {
+        count: {
+          type: "integer",
+          minimum: 0,
+          default: 0
+        }
+      },
       response: {
         201: ProductSchema,
       },
@@ -71,7 +81,7 @@ export const productsController = async (fastify: FastifyInstance) => {
         id: uuid.v4(),
         name: req.body.name,
         category: req.body.category,
-        inStock: req.body.inStock ?? 5,
+        inStock: req.query.count ?? 5,
         createdBy: req.user?.username ?? "Anonymous",
         orders: [],
       });

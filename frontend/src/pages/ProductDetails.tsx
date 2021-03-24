@@ -69,6 +69,12 @@ export const ProductPage: React.FC = () => {
         minWidth: 100,
       },
       {
+        key: "createdBy",
+        name: "Created By",
+        fieldName: "createdBy",
+        minWidth: 200
+      },
+      {
         key: "actions",
         name: "Actions",
         minWidth: 200,

@@ -19,6 +19,7 @@ export const ProductSchema = {
       description: "Product category",
     },
     inStock: {
+      readOnly: true,
       type: "integer",
       minimum: 0,
       default: 0,
@@ -48,13 +49,13 @@ export const ProductDetailsSchema = {
 export interface ProductWrite {
   name: string;
   category: string;
-  inStock?: number;
 }
 
 export interface Product extends ProductWrite {
   id: string;
   createdBy: string;
   onOrder?: number;
+  inStock?: number;
 }
 
 export interface ProductDetails extends Product {

@@ -28,11 +28,9 @@ export const OrderProductModal: React.FC<Props> = (props) => {
   const orderProduct = async () => {
     setError("");
     try {
-      const product = await request<Product>(`/product/${id}/order`, {
+      const product = await request<Product>(`/product/${id}/order?count=${count}`, {
         method: "POST",
-        body: JSON.stringify({
-          count,
-        }),
+        body: '{}',
         headers: {
           "Content-Type": "application/json",
         },

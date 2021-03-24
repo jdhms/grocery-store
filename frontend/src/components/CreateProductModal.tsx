@@ -40,11 +40,10 @@ export const CreateProductModal: React.FC<Props> = (props) => {
     }
     setError("");
     try {
-      const product = await request<Product>(`/product`, {
+      const product = await request<Product>(`/product?count=${inStock}`, {
         method: "POST",
         body: JSON.stringify({
           name,
-          inStock,
           category,
         }),
       });
