@@ -7,7 +7,7 @@ import { ConfirmDeleteProductModal } from "./ConfirmDeleteModal";
 import { OrderProductModal } from "./OrderProductModal";
 import { CreateProductModal } from "./CreateProductModal";
 import { ProductCommandBar } from "./ProductCommandBar";
-import { ErrorMessage } from './ErrorMessage'
+import { ErrorMessage } from "./ErrorMessage";
 import { useParams } from "react-router";
 
 const PAGE_SIZE = 16;
@@ -36,7 +36,7 @@ export const ProductList: React.FC = (props) => {
       setProducts(products ?? []);
     } catch (e) {
       setProducts([]);
-      setError(e.message)
+      setError(e.message);
       console.error(e);
     }
   }, [request, category, page]);

@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { AuthConfig } from "../config";
+import { AccountInfo } from "@azure/msal-common";
 
 interface UserCtx {
   request: <T>(url: string, opts?: Partial<RequestInit>) => Promise<T | null>;
@@ -23,47 +24,35 @@ const tokenRequest = {
 
 export const UserContextProvider: React.FC = (props) => {
   const { children } = props;
-  const { instance, accounts, inProgress } = useMsal();
+  const { instance, inProgress, accounts } = useMsal();
   const account = useAccount(accounts[0] ?? {});
 
-  const getTokenSilent = useCallback(async () => {
-    try {
-      const response = await instance.acquireTokenSilent({
-        ...tokenRequest,
-        account: account ?? undefined,
-      });
-      return response.accessToken;
-    } catch (e) {
-      console.log("Failed to aquire token silently");
-      return null;
-    }
-  }, [instance, account]);
+  const getTokenSilent = useCallback(
+    async (account?: AccountInfo) => {
+      try {
+        const response = await instance.acquireTokenSilent({
+          ...tokenRequest,
+          account,
+        });
+        return response.accessToken;
+      } catch (e) {
+        console.log("Failed to aquire token silently");
+        return null;
+      }
+    },
+    [instance]
+  );
 
-  const getTokenPopup = useCallback(async () => {
-    try {
-      const response = await instance.acquireTokenPopup(tokenRequest);
-      return response.accessToken;
-    } catch (e) {
-      console.log("Failed to aquire token with popup");
-      return null;
-    }
-  }, [instance]);
-
-  const aquireToken = useCallback(async () => {
-    let token = await getTokenSilent();
-    if (token) {
-      return token;
-    }
-    return await getTokenPopup();
-  }, [getTokenPopup, getTokenSilent]);
-
-  const getAuthHeaders = useCallback(async () => {
-    const token = account ? await aquireToken() : await getTokenSilent();
-    const value = token ? `Bearer ${token}` : "";
-    return {
-      Authorization: value,
-    };
-  }, [getTokenSilent, aquireToken, account]);
+  const getAuthHeaders = useCallback(
+    async (account?: AccountInfo) => {
+      const token = account && (await getTokenSilent(account ?? undefined));
+      const value = token ? `Bearer ${token}` : "";
+      return {
+        Authorization: value,
+      };
+    },
+    [getTokenSilent]
+  );
 
   const login = useCallback(async () => {
     await instance.loginPopup({
@@ -81,7 +70,7 @@ export const UserContextProvider: React.FC = (props) => {
       url: string,
       opts: Partial<RequestInit> = {}
     ): Promise<T | null> => {
-      const authHeader = await getAuthHeaders();
+      const authHeader = await getAuthHeaders(account ?? undefined);
       const resp = await fetch(`${baseUrl}${url}`, {
         ...opts,
         headers: {
@@ -100,7 +89,7 @@ export const UserContextProvider: React.FC = (props) => {
         return null;
       }
     },
-    [getAuthHeaders]
+    [getAuthHeaders, account]
   );
 
   return (

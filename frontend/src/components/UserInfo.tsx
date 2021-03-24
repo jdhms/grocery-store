@@ -34,7 +34,6 @@ export const UserInfo: React.FC = () => {
       {username ? (
         <DropdownButton
           text={username}
-          split
           splitButtonAriaLabel="See 2 options"
           aria-roledescription="split button"
           menuProps={menuProps}
