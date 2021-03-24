@@ -10,9 +10,9 @@ on:
 
 env:
   REACT_APP_API_URL: https://rbachackathondemo-api-apim.azure-api.net
-  REACT_APP_API_SCOPE: api://5f94a453-6b1b-40a3-976a-d42e35641083/Access
-  REACT_APP_TENANT_ID: 37c69493-4ec6-4e45-b438-95c643ed70e9
-  REACT_APP_CLIENT_ID: 0285b654-7b24-477f-82f7-0538056348d8
+  REACT_APP_API_SCOPE: api://e56573a8-5614-4a07-9ed2-a33e0d14ef3d/Access
+  REACT_APP_TENANT_ID: 72f988bf-86f1-41af-91ab-2d7cd011db47
+  REACT_APP_CLIENT_ID: 33224d02-2517-4f98-9dd8-2780aebe57e0
   REACT_APP_REDIRECT_URI: https://nice-sand-0211b6d1e.azurestaticapps.net
 
 jobs:

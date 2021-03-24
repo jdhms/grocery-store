@@ -17,11 +17,12 @@ import { Strategy as AnonymousStrategy } from "passport-anonymous";
 const bearerStratgey = new BearerStrategy(
   {
     identityMetadata: `https://${AuthConfig.AUTHORITY}/${AuthConfig.TENANT_ID}/${AuthConfig.DISCOVERY}`,
+    issuer: `https://${AuthConfig.AUTHORITY}/${AuthConfig.TENANT_ID}/${AuthConfig.VERSION}`,
     clientID: AuthConfig.CLIENT_ID,
     audience: AuthConfig.AUDIENCE,
-    validateIssuer: false,
-    loggingLevel: "warn",
-    loggingNoPII: false,
+    validateIssuer: true,
+    loggingLevel: "info",
+    loggingNoPII: false
   },
   (token, done) => {
     done(
