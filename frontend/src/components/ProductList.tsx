@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import styled from "styled-components";
-import { ActionButton, MessageBarType } from "@fluentui/react";
+import { ActionButton, MessageBarType, ProgressIndicator } from "@fluentui/react";
 import { UserContext } from "../context";
 import { ProductCard, Product } from "./ProductCard";
 import { ConfirmDeleteProductModal } from "./ConfirmDeleteModal";
@@ -24,9 +24,11 @@ export const ProductList: React.FC = (props) => {
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
   const [orderingProduct, setOrderingProduct] = useState<Product | null>(null);
   const [creatingProduct, setCreatingProduct] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const getProducts = useCallback(async () => {
+    setLoading(true);
     setError("");
     try {
       const cat = category ?? "";
@@ -38,6 +40,8 @@ export const ProductList: React.FC = (props) => {
       setProducts([]);
       setError(e.message);
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   }, [request, category, page]);
 
@@ -77,6 +81,9 @@ export const ProductList: React.FC = (props) => {
         >
           Error retrieving products: {error}
         </ErrorMessage>
+      )}
+      {loading && (
+        <LoadingBar />
       )}
       <Grid>
         {products.map((p) => (
@@ -160,5 +167,13 @@ const PrevPageButton = styled(ActionButton)`
 const NextPageButton = styled(PrevPageButton)`
   .ms-Button-flexContainer {
     flex-flow: row-reverse nowrap;
+  }
+`;
+
+const LoadingBar = styled(ProgressIndicator)`
+  margin-bottom: -2px;
+
+  .ms-ProgressIndicator-itemProgress {
+   padding: 0;
   }
 `;
