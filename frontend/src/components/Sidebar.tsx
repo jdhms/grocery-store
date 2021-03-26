@@ -49,22 +49,24 @@ export const Sidebar: React.FunctionComponent = () => {
   return (
     <Wrapper>
       <UserInfo />
-      <Nav
-        styles={{ root: { width: "100%" } }}
-        groups={[
-          {
-            name: "Categories",
-            expandAriaLabel: "Expand Utilities section",
-            collapseAriaLabel: "Collapse Utilities section",
-            links: categoryLinks,
-          },
-        ]}
-        onLinkClick={(ev, el) => {
-          ev?.preventDefault();
-          el && history.push(el.url);
-        }}
-        selectedKey={match?.params?.category ?? ""}
-      />
+      {categoryLinks.length > 0 && (
+        <Nav
+          styles={{ root: { width: "100%" } }}
+          groups={[
+            {
+              name: "Categories",
+              expandAriaLabel: "Expand Utilities section",
+              collapseAriaLabel: "Collapse Utilities section",
+              links: categoryLinks,
+            },
+          ]}
+          onLinkClick={(ev, el) => {
+            ev?.preventDefault();
+            el && history.push(el.url);
+          }}
+          selectedKey={match?.params?.category ?? ""}
+        />
+      )}
     </Wrapper>
   );
 };
