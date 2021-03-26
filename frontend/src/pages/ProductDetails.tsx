@@ -5,6 +5,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
+import styled from "styled-components";
 import {
   DetailsList,
   SelectionMode,
@@ -12,11 +13,16 @@ import {
   IColumn,
   Persona,
   PersonaSize,
+  MessageBarType,
+  ProgressIndicator,
 } from "@fluentui/react";
-import { Product } from "../components/ProductCard";
-import { OrderCommandBar, OrderProductModal } from "../components";
-import { ConfirmDeleteOrderModal } from "../components/ConfirmDeleteOrderModal";
-import styled from "styled-components";
+import {
+  OrderCommandBar,
+  OrderProductModal,
+  ErrorMessage,
+  ConfirmDeleteOrderModal,
+  Product,
+} from "../components";
 import { UserContext } from "../context";
 import { useParams } from "react-router";
 
@@ -39,14 +45,21 @@ export const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<ProductDetails>();
   const [deletingOrder, setDeletingOrder] = useState<Order>();
   const [creatingOrder, setCreatingOrder] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fetchProduct = useCallback(async () => {
+    setError("");
+    setLoading(true);
     try {
       const result = await request<ProductDetails>(`/product/${productId}`);
       setProduct(result ?? undefined);
     } catch (e) {
       setProduct(undefined);
+      setError(e.message);
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   }, [request, productId]);
 
@@ -118,6 +131,16 @@ export const ProductPage: React.FC = () => {
   return (
     <>
       <OrderCommandBar onCreateOrder={() => setCreatingOrder(true)} />
+      {error && (
+        <ErrorMessage
+          messageBarType={MessageBarType.error}
+          isMultiline={false}
+          onDismiss={() => setError("")}
+        >
+          Error retrieving products: {error}
+        </ErrorMessage>
+      )}
+      {loading && <LoadingBar />}
       <Wrapper>
         {product && (
           <Persona
@@ -166,4 +189,12 @@ const StyledActionButton = styled(ActionButton)`
 
 const StyledDetailsList = styled(DetailsList)`
   margin-top: 2rem;
+`;
+
+const LoadingBar = styled(ProgressIndicator)`
+  margin-bottom: -2px;
+
+  .ms-ProgressIndicator-itemProgress {
+    padding: 0;
+  }
 `;
