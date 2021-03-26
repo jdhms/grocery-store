@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Text, Icon, DefaultButton, ActionButton } from "@fluentui/react";
+import { Text, ActionButton } from "@fluentui/react";
 import { ProductList } from "../components";
 import { UserContext } from "../context";
 import hero from "../assets/hero.png";
-import img1 from "../assets/Azure_.png";
-import cart from '../assets/shopping-cart.png';
+import cart from "../assets/shopping-cart.png";
 
 export const Home: React.FC = () => {
   const { username, login } = useContext(UserContext);
@@ -22,7 +21,7 @@ export const Home: React.FC = () => {
           Login
         </StyledActionButton>
       </WrapHeader>
-      
+
       <Section>
         <SectionInner>
           <div>
@@ -31,7 +30,9 @@ export const Home: React.FC = () => {
             </h2>
             <p>
               <Text variant="large">
-                This grocery store demo application was created to show the power of the integration of Azure Role Based Access control and Azure API Management.
+                This grocery store demo application was created to show the
+                power of the integration of Azure Role Based Access control and
+                Azure API Management.
               </Text>
             </p>
 
@@ -52,7 +53,7 @@ export const Home: React.FC = () => {
               </Text>
             </p>
           </div>
-          <img src={cart} />
+          <img src={cart} alt="shopping cart" />
         </SectionInner>
       </Section>
     </div>
@@ -120,11 +121,10 @@ const SectionInner = styled.div`
   img {
     padding: 5rem;
     width: 400px;
-  
+
     @media screen and (max-width: 900px) {
       padding: 2rem;
-  }
-  
+    }
   }
 
   div {

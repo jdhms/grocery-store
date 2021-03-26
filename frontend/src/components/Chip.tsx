@@ -17,7 +17,13 @@ export const Chip: React.FC<Props> = (props) => {
         {icon && (
           <Icon
             iconName={icon}
-            style={{ fontSize: 16, height: 16, width: 16, marginRight: 5, verticalAlign: "middle" }}
+            style={{
+              fontSize: 16,
+              height: 16,
+              width: 16,
+              marginRight: 5,
+              verticalAlign: "middle",
+            }}
           />
         )}
       </div>
