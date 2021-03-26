@@ -34,12 +34,12 @@ export const parseJwt = (req: FastifyRequest) => {
   }
 
   // missing expected properties
-  const { name, preferred_username } = user;
-  if (!name || !preferred_username) {
+  const { name, unique_name } = user;
+  if (!name || !unique_name) {
     return null;
   }
 
-  return { name, username: preferred_username };
+  return { name, username: unique_name };
 };
 
 export const parseUserHook = (
