@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify";
 import { ProductDetailsSchema } from "../product";
 import * as queries from "./queries";
 import * as uuid from "uuid";
-import fastifyPassport from "fastify-passport";
 
 type CreateRequest = {
   Params: { id: string };
@@ -31,22 +30,18 @@ export const ordersController = async (fastify: FastifyInstance) => {
         count: {
           type: "number",
           minimum: 1,
-          default: 1
-        }
+          default: 1,
+        },
       },
       response: {
         201: ProductDetailsSchema,
       },
     },
-    preValidation: fastifyPassport.authenticate(["bearer"], {
-      authInfo: false,
-      session: false,
-    }),
     handler: async (req, res) => {
       const result = await queries.createOrder(req.params.id, {
         id: uuid.v4(),
         count: req.query.count,
-        createdBy: req.user?.username ?? "Anonymous",
+        createdBy: req.user.username,
       });
       res.status(201).send(result);
     },
@@ -68,10 +63,6 @@ export const ordersController = async (fastify: FastifyInstance) => {
         400: {},
       },
     },
-    preValidation: fastifyPassport.authenticate(["bearer"], {
-      authInfo: false,
-      session: false,
-    }),
     handler: async (req, res) => {
       await queries.deleteOrder(req.params.id, req.params.orderId);
       res.status(204).send();

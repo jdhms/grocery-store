@@ -4,43 +4,16 @@ dotenv.config();
 import fastify from "fastify";
 import cors from "fastify-cors";
 import swagger from "fastify-swagger";
+import { parseUserHook } from "./auth";
 import { productsController } from "./product";
 import { ordersController } from "./order";
 import { categoryController } from "./category";
 import { errorHandler } from "./errors";
-import { AuthConfig } from "./config";
-import fastifyPassport from "fastify-passport";
-import fastifySecureSession from "fastify-secure-session";
-import { BearerStrategy } from "passport-azure-ad";
-import { Strategy as AnonymousStrategy } from "passport-anonymous";
-
-const bearerStratgey = new BearerStrategy(
-  {
-    identityMetadata: `https://${AuthConfig.AUTHORITY}/${AuthConfig.TENANT_ID}/${AuthConfig.DISCOVERY}`,
-    issuer: `https://${AuthConfig.AUTHORITY}/${AuthConfig.TENANT_ID}/${AuthConfig.VERSION}`,
-    clientID: AuthConfig.CLIENT_ID,
-    audience: AuthConfig.AUDIENCE,
-    validateIssuer: true,
-    loggingLevel: "warn",
-    loggingNoPII: false
-  },
-  (token, done) => {
-    done(
-      null,
-      {
-        username: token.preferred_username,
-      },
-      token
-    );
-  }
-);
-
-const anonymousStrategy = new AnonymousStrategy();
 
 export const build = (opts = {}) => {
   const app = fastify({
     ...opts,
-    exposeHeadRoutes: false
+    exposeHeadRoutes: false,
   });
 
   // support cors for certain domains
@@ -62,13 +35,9 @@ export const build = (opts = {}) => {
     },
   });
 
-  app.register(fastifySecureSession, {
-    key: process.env.SESSION_KEY!,
-  });
-  app.register(fastifyPassport.initialize());
-  app.register(fastifyPassport.secureSession());
-  fastifyPassport.use("bearer", bearerStratgey);
-  fastifyPassport.use("anonymous", anonymousStrategy);
+  // get user info from jwt
+  app.decorateRequest("user", null);
+  app.addHook("onRequest", parseUserHook);
 
   // global error handler
   app.setErrorHandler(errorHandler);

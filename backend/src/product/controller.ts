@@ -2,13 +2,12 @@ import { FastifyInstance } from "fastify";
 import { ProductDetailsSchema, ProductSchema, ProductWrite } from "./schema";
 import * as queries from "./queries";
 import * as uuid from "uuid";
-import fastifyPassport from 'fastify-passport';
 
 type CreateRequest = {
   Body: ProductWrite;
   Querystring: {
-    count: number
-  }
+    count: number;
+  };
 };
 
 type ItemRequest = {
@@ -46,7 +45,6 @@ export const productsController = async (fastify: FastifyInstance) => {
         },
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer', 'anonymous'], { authInfo: false, session: false }),
     handler: async (req, res) => {
       const result = req.query.category
         ? await queries.listProductsInCategory(
@@ -70,21 +68,20 @@ export const productsController = async (fastify: FastifyInstance) => {
         count: {
           type: "integer",
           minimum: 0,
-          default: 0
-        }
+          default: 0,
+        },
       },
       response: {
         201: ProductSchema,
       },
     },
-    preValidation: fastifyPassport.authenticate(['bearer'], { authInfo: false, session: false }),
     handler: async (req, res) => {
       const product = await queries.createProduct({
         id: uuid.v4(),
         name: req.body.name,
         category: req.body.category,
         inStock: req.query.count ?? 5,
-        createdBy: req.user?.username ?? "Anonymous",
+        createdBy: req.user.username,
         orders: [],
       });
       res.status(201).send(product);
