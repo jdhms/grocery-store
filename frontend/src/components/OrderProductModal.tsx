@@ -31,7 +31,7 @@ export const OrderProductModal: React.FC<Props> = (props) => {
       const product = await request<Product>(`/product/${id}/order`, {
         method: "POST",
         body: JSON.stringify({
-          count,
+          count: parseInt(count),
         }),
         headers: {
           "Content-Type": "application/json",

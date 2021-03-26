@@ -45,7 +45,7 @@ export const CreateProductModal: React.FC<Props> = (props) => {
         body: JSON.stringify({
           name,
           category,
-          count: inStock,
+          count: parseInt(inStock),
         }),
       });
       onCreated(product);
