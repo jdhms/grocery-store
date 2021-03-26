@@ -29,7 +29,7 @@ const Brand = styled(Link)`
 export const Header: React.FC = () => {
   return (
     <Root>
-      <Brand to="/">Grocery Store</Brand>
+      <Brand to="/">RBAC Store</Brand>
     </Root>
   );
 };

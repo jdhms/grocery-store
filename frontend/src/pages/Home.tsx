@@ -16,7 +16,7 @@ export const Home: React.FC = () => {
   return (
     <div>
       <WrapHeader>
-        <StyledMega variant="mega">RBAC Grocery Store</StyledMega>
+        <StyledMega variant="mega">RBAC Store</StyledMega>
         <StyledActionButton iconProps={{ iconName: "Contact" }} onClick={login}>
           Login
         </StyledActionButton>
@@ -30,9 +30,9 @@ export const Home: React.FC = () => {
             </h2>
             <p>
               <Text variant="large">
-                This grocery store demo application was created to show the
-                power of the integration of Azure Role Based Access control and
-                Azure API Management.
+                This inventory management demo application was created to show
+                the power of the integration of Azure Role Based Access control
+                and Azure API Management.
               </Text>
             </p>
 
