@@ -1,6 +1,10 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import styled from "styled-components";
-import { ActionButton, MessageBarType, ProgressIndicator } from "@fluentui/react";
+import {
+  ActionButton,
+  MessageBarType,
+  ProgressIndicator,
+} from "@fluentui/react";
 import { UserContext } from "../context";
 import { ProductCard, Product } from "./ProductCard";
 import { ConfirmDeleteProductModal } from "./ConfirmDeleteModal";
@@ -82,9 +86,7 @@ export const ProductList: React.FC = (props) => {
           Error retrieving products: {error}
         </ErrorMessage>
       )}
-      {loading && (
-        <LoadingBar />
-      )}
+      {loading && <LoadingBar />}
       <Grid>
         {products.map((p) => (
           <ProductCard
@@ -174,6 +176,6 @@ const LoadingBar = styled(ProgressIndicator)`
   margin-bottom: -2px;
 
   .ms-ProgressIndicator-itemProgress {
-   padding: 0;
+    padding: 0;
   }
 `;

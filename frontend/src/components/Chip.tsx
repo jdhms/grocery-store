@@ -17,7 +17,7 @@ export const Chip: React.FC<Props> = (props) => {
         {icon && (
           <Icon
             iconName={icon}
-            style={{ fontSize: 16, height: 16, width: 16, marginRight: 5 }}
+            style={{ fontSize: 16, height: 16, width: 16, marginRight: 5, verticalAlign: "middle" }}
           />
         )}
       </div>
@@ -28,8 +28,9 @@ export const Chip: React.FC<Props> = (props) => {
 
 const Wrapper = styled.div<{ color: string }>`
   border-radius: 0.5rem;
-  background-color: ${(props) => props.color};
-  color: #fff;
+  border: 1px solid;
+  border-color: ${(props) => props.color};
+  color: var(--text-muted);
   padding: 5px 10px;
   display: flex;
   align-items: center;

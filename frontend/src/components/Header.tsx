@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Root = styled.div`
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   width: 100%;
   height: 60px;
   display: flex;
@@ -26,8 +26,10 @@ const Brand = styled(Link)`
   }
 `;
 
-export const Header: React.FC = () => (
-  <Root>
-    <Brand to="/">Grocery Store</Brand>
-  </Root>
-);
+export const Header: React.FC = () => {
+  return (
+    <Root>
+      <Brand to="/">Grocery Store</Brand>
+    </Root>
+  );
+};

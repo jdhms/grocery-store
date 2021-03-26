@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
+import { UserContext } from "../context";
 
 export const Layout: React.FC = (props) => {
   const { children } = props;
+  const { username } = useContext(UserContext);
 
   return (
     <>
       <Global />
       <Root>
-        <Header />
-        <ContentWrapper>
-          <Sidebar />
-          <Content>{children}</Content>
-        </ContentWrapper>
-        {/* <Footer /> */}
+        {!username ? (
+          <>{children}</>
+        ) : (
+          <>
+            <Header />
+            <ContentWrapper>
+              <Sidebar />
+              <Content>{children}</Content>
+            </ContentWrapper>
+          </>
+        )}
       </Root>
     </>
   );
@@ -29,7 +36,8 @@ const Global = createGlobalStyle`
     --background-main: #fafafa;
     --background-paper: #fff;
     --background-disabled: #616161;
-    --color-primary: rgb(0,120,212);
+    --color-primary: #0078d4;
+    --color-hero: rgb(0, 120, 212, 0.7);
     --color-primary-light: #7986cb;
     --color-warning: #ffb74d;
     --color-error: #e57373;

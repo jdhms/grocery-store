@@ -82,7 +82,7 @@ export const ProductCard: React.FC<Props> = (props) => {
         <Chip
           color="var(--color-primary-light)"
           label={`Back Order: ${onOrder}`}
-          icon="CheckMark"
+          icon="TimeEntry"
         />
       </InfoSection>
     </Card>

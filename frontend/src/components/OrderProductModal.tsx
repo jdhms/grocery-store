@@ -28,13 +28,16 @@ export const OrderProductModal: React.FC<Props> = (props) => {
   const orderProduct = async () => {
     setError("");
     try {
-      const product = await request<Product>(`/product/${id}/order?count=${count}`, {
-        method: "POST",
-        body: '{}',
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const product = await request<Product>(
+        `/product/${id}/order?count=${count}`,
+        {
+          method: "POST",
+          body: "{}",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       onComplete(product);
     } catch (e) {
       setError(e.message);
