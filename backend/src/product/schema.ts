@@ -35,6 +35,18 @@ export const ProductSchema = {
   },
 };
 
+export const ProductWriteSchema = {
+  ...ProductSchema,
+  properties: {
+    ...ProductSchema.properties,
+    count: {
+      type: "integer",
+      minimum: 0,
+      default: 0,
+    },
+  },
+};
+
 export const ProductDetailsSchema = {
   ...ProductSchema,
   properties: {

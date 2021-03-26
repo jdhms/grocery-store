@@ -1,13 +1,15 @@
 import { FastifyInstance } from "fastify";
-import { ProductDetailsSchema, ProductSchema, ProductWrite } from "./schema";
+import {
+  ProductDetailsSchema,
+  ProductSchema,
+  ProductWrite,
+  ProductWriteSchema,
+} from "./schema";
 import * as queries from "./queries";
 import * as uuid from "uuid";
 
 type CreateRequest = {
-  Body: ProductWrite;
-  Querystring: {
-    count: number;
-  };
+  Body: ProductWrite & { count: number };
 };
 
 type ItemRequest = {
@@ -63,14 +65,7 @@ export const productsController = async (fastify: FastifyInstance) => {
       tags: ["Product"],
       summary: "Create product",
       operationId: "CreateProduct",
-      body: ProductSchema,
-      querystring: {
-        count: {
-          type: "integer",
-          minimum: 0,
-          default: 0,
-        },
-      },
+      body: ProductWriteSchema,
       response: {
         201: ProductSchema,
       },
@@ -80,7 +75,7 @@ export const productsController = async (fastify: FastifyInstance) => {
         id: uuid.v4(),
         name: req.body.name,
         category: req.body.category,
-        inStock: req.query.count ?? 5,
+        inStock: req.body.count,
         createdBy: req.user.username,
         orders: [],
       });

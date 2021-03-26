@@ -2,10 +2,11 @@ import { FastifyInstance } from "fastify";
 import { ProductDetailsSchema } from "../product";
 import * as queries from "./queries";
 import * as uuid from "uuid";
+import { OrderSchema } from "./schema";
 
 type CreateRequest = {
   Params: { id: string };
-  Querystring: { count: number };
+  Body: { count: number };
 };
 
 type ItemRequest = {
@@ -26,13 +27,7 @@ export const ordersController = async (fastify: FastifyInstance) => {
       params: {
         id: { type: "string" },
       },
-      querystring: {
-        count: {
-          type: "number",
-          minimum: 1,
-          default: 1,
-        },
-      },
+      body: OrderSchema,
       response: {
         201: ProductDetailsSchema,
       },
@@ -40,7 +35,7 @@ export const ordersController = async (fastify: FastifyInstance) => {
     handler: async (req, res) => {
       const result = await queries.createOrder(req.params.id, {
         id: uuid.v4(),
-        count: req.query.count,
+        count: req.body.count,
         createdBy: req.user.username,
       });
       res.status(201).send(result);

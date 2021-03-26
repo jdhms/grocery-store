@@ -7,9 +7,9 @@ export const OrderSchema = {
       type: "string",
     },
     count: {
-      readOnly: true,
       type: "integer",
       minimum: 0,
+      default: 0,
     },
     createdBy: {
       readOnly: true,
