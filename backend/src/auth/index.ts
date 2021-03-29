@@ -34,8 +34,9 @@ export const parseJwt = (req: FastifyRequest) => {
   }
 
   // missing expected properties
-  const { name, unique_name } = user;
-  if (!name || !unique_name) {
+  const { name, unique_name, preferred_username } = user;
+  const username = unique_name ?? preferred_username;
+  if (!name || !username) {
     return null;
   }
 
