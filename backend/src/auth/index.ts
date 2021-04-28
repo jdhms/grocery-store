@@ -45,12 +45,12 @@ export const parseJwt = (req: FastifyRequest) => {
 
 export const parseUserHook = (
   req: FastifyRequest,
-  reply: FastifyReply,
+  _reply: FastifyReply,
   done: CallableFunction
 ) => {
   const user = parseJwt(req);
   if (!user) {
-    reply.status(401).send();
+    req.user = { name: "anonymous", username: "anonymous" }
   } else {
     req.user = user;
   }
